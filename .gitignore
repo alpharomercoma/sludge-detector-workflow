@@ -1,1 +1,9 @@
 .venv
+.cache
+.kaggle
+kagglehub
+kaggle.json
+__pycache__
+PE-Video_dataset
+1000
+sludge_dataset

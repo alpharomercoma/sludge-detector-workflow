@@ -17,6 +17,7 @@ echo "Enter your kaggle api key: "
 read kaggle_key
 
 echo "Writing Kaggle API credentials"
+cd ..
 cat <<EOF > ./.kaggle/kaggle.json
 {
   "username": "${kaggle_username}",
@@ -25,11 +26,16 @@ cat <<EOF > ./.kaggle/kaggle.json
 EOF
 
 echo "Setting kaggle cache directory"
-export KAGGLEHUB_CACHE=".cache/kagglehub"
+mkdir -p ./.kaggle/kagglehub
+export KAGGLEHUB_CACHE="./.kaggle/kagglehub"
 
 echo "Setting hugging face cache directory"
-export HF_HOME=".cache/huggingface/hub"
-export HF_HUB_CACHE=".cache/huggingface/hub"
+mkdir -p ./.cache/huggingface/hub
+export HF_HOME="./.cache/huggingface/hub"
+export HF_HUB_CACHE="./.cache/huggingface/hub"
+
+echo "Navigating to 0_setup directory"
+cd 0_setup
 
 # Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
@@ -51,11 +57,3 @@ pip install --upgrade pip
 # Install dependencies
 echo "Installing dependencies..."
 pip install -r requirements.txt
-
-# Get GPU information if available
-if command -v nvidia-smi &> /dev/null; then
-    echo "GPU information:"
-    nvidia-smi
-else
-    echo "No NVIDIA GPU detected. The model will run on CPU, which will be very slow."
-fi
